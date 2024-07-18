@@ -15,7 +15,8 @@ This Angular web application provides a booking system for repair cafes, allowin
 - **RepairMonitor Integration**: Collected data can be enriched post-repair and transferred to RepairMonitor.
 - **Visitor Notification**: If Email provided, informs visitor if no repair cafe agent is available for the booked timeslot
 - **DSGVO-Compliance**: Automatically deletes UserData 7 days after time slot.
-
+- **Followup TimeSlot**:: Postpone completion to next meeting.
+-  
 ## Technology Stack
 
 - Frontend: Angular
