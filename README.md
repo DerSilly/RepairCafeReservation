@@ -22,7 +22,7 @@ This Angular web application provides a booking system for repair cafes, allowin
 - Frontend: Angular
 - Database: SQLite
 - AI Integration: ChatGPT
-- Backend: .NET Core REST-API
+- Backend: Laravel REST-API
 
 ## Usage
 
