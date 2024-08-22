@@ -10,6 +10,7 @@ docker network create repaircafe-network
 docker volume create --name repairdb_data
 
 docker run --name repairdb \
+  -p 3306:3306 \
   --env ALLOW_EMPTY_PASSWORD=yes \
   --env MARIADB_USER=repair_admin \
   --env MARIADB_DATABASE=repaircafe \
