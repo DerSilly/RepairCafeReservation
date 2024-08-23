@@ -28,3 +28,5 @@ docker run --name repaircafe \
   --network  repaircafe-network \
   --volume ${PWD}/API:/app \
   bitnami/laravel:latest
+
+  #execute in laravel-Container: php artisan install:api
