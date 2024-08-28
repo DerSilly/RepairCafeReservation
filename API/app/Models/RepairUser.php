@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\User as BaseUser;
+use App\Models\User;
 
-class RepairUser extends BaseUser
+class RepairUser extends User
 {
+    public $table='users';
     // Neue Eigenschaften oder Methoden hier hinzufügen
 }
 
