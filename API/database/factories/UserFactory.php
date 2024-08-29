@@ -29,6 +29,21 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'phone_number' => fake()->phoneNumber(),
+        ];
+    }
+
+    /**
+     * Define the model's default state for reuse.
+     *
+     * @return array<string, mixed>
+     */
+    public function reuse(): array
+    {
+        return [
+            'id',
         ];
     }
 

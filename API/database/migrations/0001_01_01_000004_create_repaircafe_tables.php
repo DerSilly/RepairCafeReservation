@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('phone_number')->nullable();
             $table->text('note')->nullable();
+            $table->boolean('is_deleted')->default(false);
         });
 
         Schema::create('locations', function (Blueprint $table) {
@@ -29,6 +30,7 @@ return new class extends Migration
 
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->foreignId('location_id')->constrained('locations');
@@ -58,11 +60,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('repairer_id')->constrained('users');
             $table->foreignId('device_id')->constrained('devices');
-            $table->foreignId('appointment_id')->constrained('appointments');
             $table->date('repair_date');
             $table->string('fault');
             $table->string('solution');
-            $table->string('repairability');
+            $table->integer('repairability');
             $table->string('repair_failed_reason')->nullable();
             $table->text('advice')->nullable();
             $table->string('repair_source')->nullable();
@@ -70,21 +71,14 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('device_appointment_assignments', function (Blueprint $table) {
+        Schema::create('appointment_device_assignments', function (Blueprint $table) {
             $table->foreignId('device_id')->constrained('devices');
             $table->foreignId('appointment_id')->constrained('appointments');
-            $table->primary(['device_id', 'appointment_id']);
+            $table->primary(['appointment_id']);
             $table->timestamps();
         });
 
-        Schema::create('user_appointment_assignments', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('appointment_id')->constrained('appointments');
-            $table->primary(['user_id', 'appointment_id']);
-            $table->timestamps();
-        });
-
-        Schema::create('user_role_assignments', function (Blueprint $table) {
+        Schema::create('role_user_assignments', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('role_id')->constrained('roles');
             $table->primary(['user_id', 'role_id']);
@@ -102,22 +96,22 @@ return new class extends Migration
             $table->dropColumn('last_name');
             $table->dropColumn('phone_number');
             $table->dropColumn('note');
+            $table->dropColumn('is_deleted');
         });
 
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('appointment_device_assignments');
 
-        Schema::dropIfExists('appointments');
-
-        Schema::dropIfExists('devices');
-
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('role_user_assignments');
 
         Schema::dropIfExists('repair_details');
 
-        Schema::dropIfExists('device_appointment_assignments');
+        Schema::dropIfExists('devices');
 
-        Schema::dropIfExists('user_appointment_assignments');
+        Schema::dropIfExists('appointments');
 
-        Schema::dropIfExists('user_role_assignments');
+        Schema::dropIfExists('roles');
+
+        Schema::dropIfExists('locations');
+
     }
 };
