@@ -31,6 +31,6 @@ class Appointment extends Model
 
     public function devices()
     {
-        return $this->belongsToMany(Device::class, 'appointment_device_assignments');
+        return $this->belongsToMany(Device::class, 'appointment_device_assignments')->withTimestamps();
     }
 }

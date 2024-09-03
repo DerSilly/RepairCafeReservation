@@ -40,6 +40,15 @@ class AppointmentPolicy
         return $user->tokenCan('admin', 'staff') || $user->id === $appointment->user_id;
     }
 
+        /**
+     * Determine whether the user can postpone the model.
+     */
+    public function postpone(User $user, Appointment $appointment): bool
+    {
+        return $user->tokenCan('admin', 'staff') || $user->id === $appointment->user_id;
+    }
+
+
     /**
      * Determine whether the user can delete the model.
      */

@@ -58,7 +58,7 @@ return new class extends Migration
 
         Schema::create('repair_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('repairer_id')->constrained('users');
+            $table->foreignId('repairer_id')->nullable()->constrained('users');
             $table->foreignId('device_id')->constrained('devices');
             $table->date('repair_date');
             $table->string('fault');

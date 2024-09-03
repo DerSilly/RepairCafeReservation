@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Device;
+use App\Models\RepairDetail;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponses;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -54,15 +56,21 @@ class AppointmentController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'location_id' => 'required|exists:devices,id',
-            'device_id' => 'required|exists:devices,id',
+            'location_id' => 'required|exists:locations,id',
             'start_time' => 'required|date|before:end_time',
             'end_time' => 'required|date|after:start_time',
             'note' => 'sometimes|string',
+            //Device
+            'kind_product' => 'nullable|string',
+            'category' => 'nullable|string',
+            'brand' => 'nullable|string',
+            'product_build_year' => 'nullable|string',
+            'model' => 'nullable|string',
+            'cause_of_fault' => 'nullable|string',
         ]);
 
         $appointment = $request->user()->appointment()->create($validatedData);
-Device::
+        $device = $appointment->devices()->create($validatedData);
         return $this->successResponse($appointment, 'Appointment created successfully', 201);
     }
 
@@ -91,7 +99,32 @@ Device::
         $appointment = Appointment::find($id);
 
         return $this->successResponse($appointment, 'Appointment created successfully', 201);
-   }
+    }
+
+    // Update an existing appointment by ID
+    public function postpone(Request $request, $id)
+    {
+        $oldAppointment = Appointment::find($id);
+        if (!$oldAppointment) {
+            return $this->errorResponse('Appointment not found', 404);
+        }
+
+        if(!Gate::allows('postpone', $oldAppointment))
+        {
+            return $this->errorResponse('Unauthorized', 403);
+        }
+
+        $validatedData = $request->validate([
+            'location_id' => 'required|exists:locations,id',
+            'start_time' => 'required|date|before:end_time',
+            'end_time' => 'required|date|after:start_time',
+            'note' => 'required|string'
+        ]);
+        $validatedData['user_id'] = $oldAppointment->user_id;
+        $appointment =  Appointment::create($validatedData);
+        $appointment->devices()->attach($oldAppointment->devices[0]);
+        return $this->successResponse($appointment, 'Appointment created successfully', 201);
+    }
 
     // Delete an appointment by ID
     public function destroy($id)

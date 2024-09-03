@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AppointmentController;
 use Laravel\Sanctum\Contracts\HasApiTokens;
 
-
+Route::post('/api/login', 'Auth\LoginController@login')->name('login');
 Route::post ('/login', [AuthController::class, 'login']);
 Route::post ('/register', [AuthController::class, 'register']);
 Route::get('/user', function (Request $request) {
@@ -16,4 +16,5 @@ Route::get('/user', function (Request $request) {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get ('/logout', [AuthController::class, 'logout']);
     Route::apiResource('/appointments', AppointmentController::class);
+    Route::put('/postpone/{id}', [AppointmentController::class, 'postpone']);
 });
