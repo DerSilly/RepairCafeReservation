@@ -4,14 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class Appointment extends Model
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens;
+
     protected $fillable = [
+        'user_id',
+        'device_id',
+        'location_id',
         'start_time',
         'end_time',
-        'location_id',
         'note',
     ];
 
