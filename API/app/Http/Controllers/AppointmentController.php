@@ -135,10 +135,12 @@ class AppointmentController extends Controller implements HasMiddleware
             return $this->errorResponse('Appointment not found', 404);
         }
 
-        foreach ($appointment->devices() as $device) {
-            $device?->repairDetail()?->delete();
+        if(!Gate::allows('delete', $appointment))
+        {
+            return $this->errorResponse('Unauthorized', 403);
         }
-        $appointment->devices()->delete();
+
+        $appointment->devices()->detach();
         $appointment->delete();
 
         return $this->successResponse(null, 'Appointment deleted successfully');

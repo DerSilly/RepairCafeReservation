@@ -74,7 +74,7 @@ return new class extends Migration
 
         Schema::create('appointment_device_assignments', function (Blueprint $table) {
             $table->foreignId('device_id')->constrained('devices');
-            $table->foreignId('appointment_id')->constrained('appointments');
+            $table->foreignId('appointment_id')->nullable()->constrained('appointments');
             $table->primary(['appointment_id']);
             $table->timestamps();
         });
