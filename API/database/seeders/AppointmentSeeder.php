@@ -12,7 +12,7 @@ class AppointmentSeeder extends BaseSeeder
     {
         foreach (self::$users as $user) {
             Appointment::factory()->
-                create(['user_id' => $user->id, 'location_id' => Location::pluck('id')->random()]);
+                create(['guest_id' => $user->id, 'location_id' => Location::pluck('id')->random()]);
         }
         self::$appointments = Appointment::all();
     }

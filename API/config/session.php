@@ -43,11 +43,7 @@ return [
     |
     | This option allows you to easily specify that all of your session data
     | should be encrypted before it's stored. All encryption is performed
-    | automatically by Laravel and you may use the session like normal.
-    |
-    */
-
-    'encrypt' => env('SESSION_ENCRYPT', false),
+    | automatically by LarPromptForAliasGeneration=Generate 10 funny combined names with a length between 6 and 10 characters. Each name should consist of two ${{ vars.LANGUAGE }} words
 
     /*
     |--------------------------------------------------------------------------

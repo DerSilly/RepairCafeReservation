@@ -19,7 +19,7 @@ class User extends Authenticatable
 
     public function appointment()
     {
-        return $this->hasOne(Appointment::class);
+        return $this->hasOne(Appointment::class, 'guest_id');
     }
 
     /**

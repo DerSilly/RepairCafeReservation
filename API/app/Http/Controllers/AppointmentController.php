@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
-use App\Models\Device;
 use App\Models\RepairDetail;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponses;
@@ -59,14 +58,15 @@ class AppointmentController extends Controller implements HasMiddleware
             'location_id' => 'required|exists:locations,id',
             'start_time' => 'required|date|before:end_time',
             'end_time' => 'required|date|after:start_time',
-            'note' => 'sometimes|string',
+            'note' => 'nullable|string',
             //Device
-            'kind_product' => 'nullable|string',
+            'kind_product' => 'string',
             'category' => 'nullable|string',
             'brand' => 'nullable|string',
-            'product_build_year' => 'nullable|string',
+            'product_build_year' => 'nullable|numeric|between:1900,' . date('Y'),
             'model' => 'nullable|string',
-            'cause_of_fault' => 'nullable|string',
+            'cause_of_fault' => 'string|min:10',
+            'note' => 'nullable|string',
         ]);
 
         $appointment = $request->user()->appointment()->create($validatedData);
@@ -88,17 +88,15 @@ class AppointmentController extends Controller implements HasMiddleware
         }
 
         $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'location_id' => 'required|exists:devices,id',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date',
+            'staff_id' => 'required|exists:users,id',
             'note' => 'sometimes|string',
         ]);
 
+        $validatedData['staff_id'] = $request->user()->id;
         $appointment->update($validatedData);
         $appointment = Appointment::find($id);
 
-        return $this->successResponse($appointment, 'Appointment created successfully', 201);
+        return $this->successResponse($appointment, 'Appointment updated successfully', 200);
     }
 
     // Update an existing appointment by ID
@@ -120,7 +118,9 @@ class AppointmentController extends Controller implements HasMiddleware
             'end_time' => 'required|date|after:start_time',
             'note' => 'required|string'
         ]);
-        $validatedData['user_id'] = $oldAppointment->user_id;
+
+        $validatedData['staff_id'] = $request->user()->id;
+        $validatedData['guest_id'] = $oldAppointment->guest_id;
         $appointment =  Appointment::create($validatedData);
         $appointment->devices()->attach($oldAppointment->devices[0]);
         return $this->successResponse($appointment, 'Appointment created successfully', 201);
@@ -135,6 +135,10 @@ class AppointmentController extends Controller implements HasMiddleware
             return $this->errorResponse('Appointment not found', 404);
         }
 
+        foreach ($appointment->devices() as $device) {
+            $device?->repairDetail()?->delete();
+        }
+        $appointment->devices()->delete();
         $appointment->delete();
 
         return $this->successResponse(null, 'Appointment deleted successfully');

@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
+        'guard' => env('AUTH_GUARD', 'api'),
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
     ],
 
@@ -36,11 +36,15 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
     ],
+    'api' => [
+        'driver' => 'sanctum',
+        'provider' => 'users',
+    ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -61,7 +65,7 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => 'eloquent',],
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
@@ -105,8 +109,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may define the amount of seconds before a password confirmation
-    | window expires and users are asked to re-enter their password via the
-    | confirmation screen. By default, the timeout lasts for three hours.
+    | window expires and ulocal By default, the timeout lasts for three hours.
     |
     */
 

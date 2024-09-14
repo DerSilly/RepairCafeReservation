@@ -20,8 +20,8 @@ class AppointmentFactory extends Factory
         return [
             'start_time' => $this->faker->dateTimeBetween('-1 month', '+1 month'),
             'end_time' => $this->faker->dateTimeBetween('start_time', '+20 minutes'),
-            'location_id' => Location::factory()->create(),
-            'user_id' => User::factory()->create(),
+            'location_id' => Location::factory()->create()->id,
+            'guest_id' => User::factory()->create()->id,
             'note' => $this->faker->optional()->text,
         ];
     }

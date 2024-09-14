@@ -37,7 +37,7 @@ class AppointmentPolicy
      */
     public function update(User $user, Appointment $appointment): bool
     {
-        return $user->tokenCan('admin', 'staff') || $user->id === $appointment->user_id;
+        return $user->tokenCan('Admin', 'Staff');
     }
 
         /**
@@ -45,7 +45,7 @@ class AppointmentPolicy
      */
     public function postpone(User $user, Appointment $appointment): bool
     {
-        return $user->tokenCan('admin', 'staff') || $user->id === $appointment->user_id;
+        return $user->tokenCan('Admin', 'Staff');
     }
 
 
@@ -54,7 +54,7 @@ class AppointmentPolicy
      */
     public function delete(User $user, Appointment $appointment): bool
     {
-        return $user->tokenCan('admin', 'staff') || $user->id === $appointment->user_id;
+        return $user->tokenCan('Admin', 'Staff');
     }
 
     /**
@@ -62,7 +62,7 @@ class AppointmentPolicy
      */
     public function restore(User $user, Appointment $appointment): bool
     {
-        return $user->tokenCan('admin');
+        return $user->tokenCan('Admin');
     }
 
     /**
@@ -70,6 +70,6 @@ class AppointmentPolicy
      */
     public function forceDelete(User $user, Appointment $appointment): bool
     {
-        return $user->tokenCan('admin');
+        return $user->tokenCan('Admin');
     }
 }

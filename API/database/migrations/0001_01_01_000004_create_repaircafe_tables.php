@@ -30,7 +30,8 @@ return new class extends Migration
 
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('guest_id')->constrained('users');
+            $table->foreignId('staff_id')->nullable()->constrained('users');
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->foreignId('location_id')->constrained('locations');
@@ -41,10 +42,10 @@ return new class extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
             $table->string('kind_product');
-            $table->string('category');
-            $table->string('brand');
-            $table->string('product_build_year');
-            $table->string('model');
+            $table->string('category')->nullable();
+            $table->string('brand')->nullable();
+            $table->integer('product_build_year')->nullable();
+            $table->string('model')->nullable();
             $table->string('cause_of_fault');
             $table->timestamps();
         });

@@ -3,7 +3,6 @@
 use Illuminate\Support\Str;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -16,8 +15,8 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'sqlite'),
 
+    'default' => env('DB_CONNECTION', 'mariadb'),
     /*
     |--------------------------------------------------------------------------
     | Database Connections
@@ -30,22 +29,22 @@ return [
     */
 
     'connections' => [
-
-        'sqlite' => [
+        '   ' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'database' => env('DB_DATABASE', database_path('repaircafe.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
-            'busy_timeout' => null,
+            'busy_timeout' => 100,
             'journal_mode' => null,
             'synchronous' => null,
         ],
 
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_HOST', 'repairdb'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'laravel'),
             'username' => env('DB_USERNAME', 'root'),
@@ -65,7 +64,7 @@ return [
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_HOST', 'repairdb'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'laravel'),
             'username' => env('DB_USERNAME', 'root'),

@@ -20,6 +20,12 @@ trait ApiResponses
      */
     protected function successResponse($data, $message = null, $statusCode = 200)
     {
+        if($data === null || $statusCode === 204)
+        {
+            http_response_code(204);
+            return;
+       }
+
         $response = [
             'success' => true,
             'data' => $data,

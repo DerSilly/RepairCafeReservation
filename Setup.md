@@ -22,9 +22,6 @@ docker run --name repairdb \
 
 docker run --name repaircafe \
   -p 8000:8000 \
-  --env DB_HOST=repairdb \
-  --env DB_USERNAME=repair_admin \
-  --env DB_DATABASE=repaircafe \
   --network  repaircafe-network \
   --volume ${PWD}/API:/app \
   bitnami/laravel:latest
