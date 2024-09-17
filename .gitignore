@@ -1,3 +1,6 @@
 repairdb_data/
 .vscode/settings.json
 API/.env.testing
+API/.env
+Client/src/environments/
+
