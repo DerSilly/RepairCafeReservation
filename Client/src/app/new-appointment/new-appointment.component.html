@@ -1,5 +1,9 @@
 <div class="container" style="min-height: 100vh; margin-top: 100px">
 
+  <div *ngFor="let nick of nicknames">
+    <p>{{ (nick) }}</p>
+  </div>
+
   <form #appointmentForm="ngForm" (ngSubmit)="submit()" class="my-auto" autocomplete="off">
     <input type="text" id="nickname" name="nickname" ngModel class="form-control me-2 mt-3" placeholder="Nickname">
 

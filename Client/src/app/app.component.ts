@@ -26,15 +26,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void
   {
-    this.http.get<User>(`${environment.apiUrl}/user/1`)
-      .subscribe({
-      next: (user) => {
-        localStorage.setItem('user', JSON.stringify(user));
-        this.setCurrentUser();
-      },
-      error: (err) => console.error('Failed to fetch user', err),
-      complete: () => console.log('User fetched successfully')
-      });
+
   }
 
   setCurrentUser()
