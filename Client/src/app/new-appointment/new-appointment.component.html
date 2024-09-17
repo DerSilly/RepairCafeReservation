@@ -1,0 +1,14 @@
+<div class="container" style="min-height: 100vh; margin-top: 100px">
+
+  <form #appointmentForm="ngForm" (ngSubmit)="submit()" class="my-auto" autocomplete="off">
+    <input type="text" id="nickname" name="nickname" ngModel class="form-control me-2 mt-3" placeholder="Nickname">
+
+    <input type="text" id="devicetype" name="devicetype" ngModel class="form-control me-2 mt-3" placeholder="Device Type">
+
+    <input type="text" id="devicecategory" name="devicecategory" ngModel class="form-control me-2 mt-3" placeholder="Device Category">
+
+    <input type="text" id="fault" name="fault" ngModel class="form-control me-2 mt-3" placeholder="Fault">
+
+    <button class="btn btn-success mt-3" type="submit">OK</button>
+  </form>
+</div>

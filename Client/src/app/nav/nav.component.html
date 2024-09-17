@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+  <div class="container">
+    <img src="../../../assets/images/logo.png" alt="Logo" width="30" height="30" class="rounded-circle align-text-top me-2">
+      <a class="navbar-brand" routerLink="/" routerLinkActive="active">Repair Cafe Reservation</a>
+
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        @if (accountService.currentUser()?.roles?.includes('Staff') ?? false) {
+              <li class="nav-item">
+                  <a routerLink="/new-appointment" routerLinkActive="active" class="nav-link">New</a>
+              </li>
+              <li class="nav-item">
+                  <a routerLink="/appointments" routerLinkActive="active" class="nav-link">Appointments</a>
+              </li>
+          }
+      </ul>
+
+      @if (accountService.currentUser()) {
+      <div dropdown class="dropdown">
+          <i class="fas fa-user"></i>
+          <a dropdownToggle class="dropdown-toggle text-light text-decoration-none">
+              Welcome {{accountService.currentUser()?.name}}!
+          </a>
+          <div *dropdownMenu class="dropdown-menu">
+              <a routerLink="/member/edit" class="dropdown-item">Edit profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" (click)="logout()">Logout</a>
+          </div>
+      </div>
+      }
+
+      @if (!accountService.currentUser()) {
+      <form #loginForm="ngForm" (ngSubmit)="login()" class="d-flex" autocomplete="off">
+          <input name="username" [(ngModel)]="user.name" class="form-control me-2" placeholder="Username">
+          <input name="password" [(ngModel)]="user.password" class="form-control me-2" placeholder="Password"
+              type="password">
+          <button class="btn btn-success" type="submit">Login</button>
+      </form>
+      }
+
+
+  </div>
+</nav>
