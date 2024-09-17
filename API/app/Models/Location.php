@@ -12,11 +12,16 @@ class Location extends Model
         'name',
         'address',
         'phone_number',
-        'email',
     ];
 
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
     }
+
+    public function manager()
+    {
+        return $this->hasOne(User::class);
+    }
+
 }
