@@ -1,11 +1,10 @@
 <div class="container" style="min-height: 100vh; margin-top: 100px">
 
-  <div *ngFor="let nick of nicknames">
-    <p>{{ (nick) }}</p>
-  </div>
-
   <form #appointmentForm="ngForm" (ngSubmit)="submit()" class="my-auto" autocomplete="off">
-    <input type="text" id="nickname" name="nickname" ngModel class="form-control me-2 mt-3" placeholder="Nickname">
+    <select id="nickname" name="nickname" ngModel class="form-select me-2 mt-3" aria-label="Nickname">
+      <option value="" disabled selected>Select a nickname</option>
+      <option *ngFor="let nick of (nicknames)" [value]="nick">{{ nick }}</option>
+    </select>
 
     <input type="text" id="devicetype" name="devicetype" ngModel class="form-control me-2 mt-3" placeholder="Device Type">
 

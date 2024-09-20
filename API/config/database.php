@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Str;
+putenv('DB_CONNECTION=sqlite');
+putenv('DB_DATABASE=/app/database/repaircafe.sqlite');
 
 return [
+
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -15,8 +18,8 @@ return [
     |
     */
 
+    'default' => env('DB_CONNECTION', 'sqlite'),
 
-    'default' => env('DB_CONNECTION', 'mariadb'),
     /*
     |--------------------------------------------------------------------------
     | Database Connections
@@ -29,17 +32,16 @@ return [
     */
 
     'connections' => [
-        '   ' => [
+        'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
-            'database' => env('DB_DATABASE', database_path('repaircafe.sqlite')),
+            'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
-            'busy_timeout' => 100,
+            'busy_timeout' => null,
             'journal_mode' => null,
             'synchronous' => null,
         ],
-
 
         'mysql' => [
             'driver' => 'mysql',

@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OnInit } from '@angular/core';
 import { environment } from '../../../src/environments/environment';
-import { LlamaService } from '../_services/ai.service';
 import { NgFor } from '@angular/common';
 
 @Component({
@@ -16,20 +15,20 @@ import { NgFor } from '@angular/common';
 export class NewAppointmentComponent implements OnInit{
   nicknames: string[] = [];
 
-  ai = inject(LlamaService);
   ngOnInit(): void {
       this.getNicknames();
   }
 
-    getNicknames(): void {
-      this.ai.generateResponse(environment.nicknamePrompt).subscribe(
-        response => {
-          this.nicknames = response.split('\n');
-        },
-        error => {
-          console.error('Fehler bei der LLaMA-Anfrage:', error);
-        });
-  }
+  getNicknames(): void {
+  fetch(`${environment.apiUrl}/nicknames`)
+    .then(response => response.json())
+    .then(data => {
+    this.nicknames = data;
+    })
+    .catch(error => {
+    console.error('Error fetching nicknames:', error);
+    });
+}
 
   submit() {
     // Handle form submission logic here
