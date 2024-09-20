@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Appointment;
+use App\Http\Resources\LocationResource;
+use App\Http\Resources\DeviceResource; // Ensure this import is correct and the class exists
 
 class AppointmentResource extends JsonResource
 {
@@ -20,7 +22,8 @@ class AppointmentResource extends JsonResource
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'user' => $this->user()->name,
-            'location' => $this->location()->name,
+            'location' => new LocationResource($this->location),
+            'device' => new DeviceResource($this->devices),
             'note' => $this->note,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
