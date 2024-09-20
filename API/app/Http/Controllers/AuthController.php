@@ -35,13 +35,6 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        Log::info('API Request', [
-            'method' => $request->method(),
-            'url' => $request->fullUrl(),
-            'headers' => $request->headers->all(),
-            'body' => $request->all()
-        ]);
-
         $request->validate([
             'email' => 'email|required',
             'password' => 'required'

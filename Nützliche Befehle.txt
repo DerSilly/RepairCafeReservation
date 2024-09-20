@@ -15,5 +15,6 @@ Testing
 php artisan make:test UserTest
 php artisan make:test UserTest --unit
 php artisan config:clear
+php artisan config:cache
 php artisan test
 

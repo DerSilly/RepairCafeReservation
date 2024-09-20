@@ -4,3 +4,5 @@ API/.env.testing
 API/.env
 Client/src/environments/
 
+Client/src/environments/environment.ts
+
