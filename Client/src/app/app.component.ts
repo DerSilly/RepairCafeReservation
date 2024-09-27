@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { CommonModule, NgFor } from '@angular/common';
 import { NavComponent } from './nav/nav.component';
+import { AccountService } from './_services/account.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ import { NavComponent } from './nav/nav.component';
 export class AppComponent implements OnInit {
   title = 'RepaircafeReservation';
   http=inject(HttpClient);
-
+  accountService=inject(AccountService);
   constructor()
   {
 
@@ -26,7 +27,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void
   {
-
+    this.setCurrentUser();
   }
 
   setCurrentUser()
@@ -34,7 +35,7 @@ export class AppComponent implements OnInit {
     const userStr = localStorage.getItem('user');
     if(!userStr) return;
     const user:User = JSON.parse(userStr);
-    //this.accountService.setCurrentUser(user);
+    this.accountService.setCurrentUser(user);
   }
 
 }

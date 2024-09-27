@@ -4,11 +4,12 @@ import { AccountService } from '../_services/account.service';
 import { User } from '../_models/user';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,BsDropdownModule],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
@@ -16,12 +17,12 @@ export class NavComponent {
   toastr = inject(ToastrService);
   accountService = inject(AccountService);
   router = inject(Router);
-  user: User = {id: 0, name: '', password: '', email: '', firstName: '', lastName: '', phoneNumber: '', note: null, isDeleted: false, token: '', roles: []};
+  user: User|undefined ;
 
   login()
   {
     this.accountService.login(this.user).subscribe({
-      next: _ => {this.router.navigateByUrl('/members');},
+      next: _ => {this.router.navigateByUrl('/newAppointment');},
       error: (error) => {this.toastr.error(error.error);}
     });
   }

@@ -4,7 +4,7 @@
       <a class="navbar-brand" routerLink="/" routerLinkActive="active">Repair Cafe Reservation</a>
 
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
-        @if (accountService.currentUser()?.roles?.includes('Staff') ?? false) {
+        @if (accountService.currentUser()?.roles?.includes('Staff') ) {
               <li class="nav-item">
                   <a routerLink="/new-appointment" routerLinkActive="active" class="nav-link">New</a>
               </li>
@@ -16,21 +16,20 @@
 
       @if (accountService.currentUser()) {
       <div dropdown class="dropdown">
-          <i class="fas fa-user"></i>
-          <a dropdownToggle class="dropdown-toggle text-light text-decoration-none">
-              Welcome {{accountService.currentUser()?.name}}!
-          </a>
-          <div *dropdownMenu class="dropdown-menu">
-              <a routerLink="/member/edit" class="dropdown-item">Edit profile</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" (click)="logout()">Logout</a>
-          </div>
+        <i class="fa fa-user me-2"></i>
+        <a dropdownToggle class="dropdown-toggle text-light text-decoration-none">
+            Welcome {{accountService.currentUser()?.name}}!
+        </a>
+        <div *dropdownMenu class="dropdown-menu">
+            <a class="dropdown-item" routerLink="/member/edit">Edit profile</a>
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+        </div>
       </div>
       }
 
       @if (!accountService.currentUser()) {
       <form #loginForm="ngForm" (ngSubmit)="login()" class="d-flex" autocomplete="off">
-          <input name="username" [(ngModel)]="user.name" class="form-control me-2" placeholder="Username">
+          <input name="email" [(ngModel)]="user.email" class="form-control me-2" placeholder="Email">
           <input name="password" [(ngModel)]="user.password" class="form-control me-2" placeholder="Password"
               type="password">
           <button class="btn btn-success" type="submit">Login</button>

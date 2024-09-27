@@ -4,7 +4,6 @@ import { User } from '../_models/user';
 import { map } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -22,10 +21,10 @@ export class AccountService {
   })
 
   login(model: any) {
-    return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
+    return this.http.post<any>(this.baseUrl + 'login', model).pipe(
       map(user => {
-        if (user) {
-          this.setCurrentUser(user);
+        if (user.data && user.data.user) {
+          this.setCurrentUser(user.data.user);
         }
       })
     )
