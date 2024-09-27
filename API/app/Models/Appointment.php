@@ -25,9 +25,10 @@ class Appointment extends Model
         return $this->belongsTo(Location::class);
     }
 
-    public function user()
+
+    public function guest()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'guest_id');
     }
 
     public function devices()

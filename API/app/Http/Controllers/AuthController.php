@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\Role;
 use App\Traits\ApiResponses;
@@ -50,12 +51,8 @@ class AuthController extends Controller
             ]);
         }
 
-        $authToken = $user->createToken('auth-token', $user->roles()->pluck('name')->toArray())->plainTextToken;
-
         return $this->successResponse([
-            'access_token' => $authToken,
-            'token_type' => 'Bearer',
-            'user' => $user,
+            'user' => new UserResource($user),
         ], 'Logged in successfully');
     }
 

@@ -15,7 +15,9 @@ class LocationFactory extends Factory
             'name' => $this->faker->randomElement(['Repaircafe A', 'Repaircafe B', 'Repaircafe C']),
             'address' => $this->faker->address,
             'phone_number' => $this->faker->phoneNumber,
-            'email' => $this->faker->unique()->safeEmail,
+            'manager_id' => \App\Models\User::whereHas('roles', function($query) {
+                $query->where('name', 'Admin');
+            })->first()->id,
         ];
     }
 }

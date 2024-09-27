@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 
 abstract class BaseSeeder extends Seeder {
     protected static $users;
+    protected static $guestUsers;
     protected static $appointments;
     protected static $devices;
 }

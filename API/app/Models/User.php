@@ -17,10 +17,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'role_user_assignments');
     }
 
-    public function appointment()
+    public function appointments()
     {
-        return $this->hasOne(Appointment::class, 'guest_id');
+        return $this->hasMany(Appointment::class, 'guest_id','id');
     }
+
 
     /**
      * The attributes that are mass assignable.

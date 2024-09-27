@@ -3,6 +3,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\RepairDetail;
+use App\Models\Device;
+use App\Models\Location;
+use App\Models\User;
+
+use App\Http\Resources\AppointmentResource;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\DeviceResource;
+use App\Http\Resources\LocationResource;
+use App\Http\Resources\RepairDetailResource;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponses;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -23,14 +32,15 @@ class AppointmentController extends Controller implements HasMiddleware
     // Retrieve and return a list of appointments
     public function index(Request $request)
     {
-        if(Gate::allows('viewAny', Appointment::class))
+        if(true || Gate::allows('viewAny', Appointment::class))
         {
-            $appointments = Appointment::all();
+            $appointments = AppointmentResource::collection(Appointment::all());
         }
         else
         {
-            $appointments = $request->user()->appointment()->get();
+            $appointments = AppointmentResource::collection($request->user()->appointments()->get());
         }
+
 
         return $this->successResponse($appointments);
     }
@@ -38,7 +48,7 @@ class AppointmentController extends Controller implements HasMiddleware
     // Retrieve and return a single appointment by ID
     public function show($id)
     {
-        $appointment = Appointment::find($id);
+        $appointment = new AppointmentResource(Appointment::findOrFail($id));
         if(!Gate::allows('view', $appointment))
         {
             return $this->errorResponse('Unauthorized', 403);
@@ -55,6 +65,7 @@ class AppointmentController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+            'guest_name' => 'required',
             'location_id' => 'required|exists:locations,id',
             'start_time' => 'required|date|before:end_time',
             'end_time' => 'required|date|after:start_time',
@@ -69,7 +80,8 @@ class AppointmentController extends Controller implements HasMiddleware
             'note' => 'nullable|string',
         ]);
 
-        $appointment = $request->user()->appointment()->create($validatedData);
+        $guest = User::firstOrCreate(['name' => $validatedData['guest_name']]);
+        $appointment = $guest->appointment()->create($validatedData);
         $device = $appointment->devices()->create($validatedData);
         return $this->successResponse($appointment, 'Appointment created successfully', 201);
     }

@@ -1,5 +1,4 @@
 <?php
-// database/seeders/LocationSeeder.php
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -13,6 +12,8 @@ class LocationSeeder extends Seeder
             'name' => 'Repaircafe A',
             'address' => 'Fakestreet 123',
             'phone_number' => '123-456-7890',
-            'email' => 'admin@repaircafea.com']);
+            'manager_id' => \App\Models\User::whereHas('roles', function($query) {
+                $query->where('name', 'Admin');
+            })->first()->id]);
     }
 }
