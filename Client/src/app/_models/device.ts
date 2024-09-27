@@ -8,4 +8,5 @@ export interface Device {
   causeOfFault: string;
   createdAt: Date;
   updatedAt: Date;
+  
 }

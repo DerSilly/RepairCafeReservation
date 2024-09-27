@@ -1,12 +1,12 @@
 export interface User {
   id: number;
   name: string;
-  password: string;
-  email: string;
+  email?: string;
+  password:string;
   firstName: string;
   lastName: string;
-  phoneNumber?: string; // Optional property
-  note: string | null;
+  phoneNumber?: string;
+  note?: string;
   isDeleted: boolean;
   token: string;
   roles: string[];

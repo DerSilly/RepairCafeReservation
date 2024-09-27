@@ -1,6 +1,8 @@
+import { Device } from "./device";
+import { User } from "./user";
+
 export interface RepairDetail {
-  repairerId: number | null;
-  deviceId: number;
+  repairer: User
   repairDate: Date;
   fault: string;
   solution: string;
@@ -11,4 +13,5 @@ export interface RepairDetail {
   hint: string | null;
   createdAt: Date;
   updatedAt: Date;
+  device: Device
 }

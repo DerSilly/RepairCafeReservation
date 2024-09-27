@@ -1,9 +1,14 @@
+import { User } from './user';
+import { Device } from './device';
+
 export interface  Appointment {
   id: number;
-  guestId: number;
   staffId: number | null;
   startTime: Date;
   endTime: Date;
-  locationId: number;
   note: string | null;
+  isDeleted: boolean;
+  guest: User;
+  device: Device
+  location: Location
 }
