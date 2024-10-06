@@ -5,8 +5,7 @@ export interface Device {
   brand: string | null;
   productBuildYear: number | null;
   model: string | null;
-  causeOfFault: string;
-  createdAt: Date;
-  updatedAt: Date;
-  
+  fault: string;
+  createdAt: Date | undefined;
+  updatedAt: Date | undefined;
 }

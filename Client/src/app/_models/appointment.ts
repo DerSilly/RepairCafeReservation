@@ -1,5 +1,6 @@
 import { User } from './user';
 import { Device } from './device';
+import { Location as AppLocation } from './location';
 
 export interface  Appointment {
   id: number;
@@ -10,5 +11,5 @@ export interface  Appointment {
   isDeleted: boolean;
   guest: User;
   device: Device
-  location: Location
+  location: AppLocation
 }

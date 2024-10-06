@@ -11,9 +11,6 @@ class Appointment extends Model
     use HasFactory, HasApiTokens;
 
     protected $fillable = [
-        'guest_id',
-        'staff_id',
-        'device_id',
         'location_id',
         'start_time',
         'end_time',

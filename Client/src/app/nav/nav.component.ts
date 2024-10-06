@@ -17,7 +17,7 @@ export class NavComponent {
   toastr = inject(ToastrService);
   accountService = inject(AccountService);
   router = inject(Router);
-  user: User|undefined ;
+  user: User = {} as User;
 
   login()
   {

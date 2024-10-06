@@ -12,11 +12,16 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\DeviceResource;
 use App\Http\Resources\LocationResource;
 use App\Http\Resources\RepairDetailResource;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponses;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Psy\SystemEnv;
 
 class AppointmentController extends Controller implements HasMiddleware
 {
@@ -64,25 +69,44 @@ class AppointmentController extends Controller implements HasMiddleware
     // Create a new appointment
     public function store(Request $request)
     {
+        if(!Gate::allows('create', Appointment::class))
+        {
+            return $this->errorResponse('Unauthorized', 403);
+        }
+
         $validatedData = $request->validate([
-            'guest_name' => 'required',
-            'location_id' => 'required|exists:locations,id',
-            'start_time' => 'required|date|before:end_time',
-            'end_time' => 'required|date|after:start_time',
+            'startTime' => 'required|date|before:endTime',
+            'endTime' => 'required|date|after:startTime',
             'note' => 'nullable|string',
-            //Device
-            'kind_product' => 'string',
-            'category' => 'nullable|string',
-            'brand' => 'nullable|string',
-            'product_build_year' => 'nullable|numeric|between:1900,' . date('Y'),
-            'model' => 'nullable|string',
-            'cause_of_fault' => 'string|min:10',
-            'note' => 'nullable|string',
+            'guest.name' => 'required|unique:users,name',
+            'location.id' => 'required|exists:locations,id',
+            'device.kindProduct' => 'required|string',
+            'device.category' => 'nullable|string',
+            'device.fault' => 'required|string|min:10',
+            'device.brand' => 'nullable|string',
+            'device.productBuildYear' => 'nullable|numeric|between:1900,' . date('Y'),
+            'device.model' => 'nullable|string',
         ]);
 
-        $guest = User::firstOrCreate(['name' => $validatedData['guest_name']]);
-        $appointment = $guest->appointment()->create($validatedData);
-        $device = $appointment->devices()->create($validatedData);
+        $appointmentData = array_merge(
+            Arr::except($validatedData, ['startTime', 'endTime', 'productBuildYear', 'kindProduct']),
+            ['start_time' => $validatedData['startTime'],
+             'end_time' => $validatedData['endTime'],
+             'product_build_year' => $validatedData['device']['productBuildYear'],
+             'kind_product' => $validatedData['device']['kindProduct'],
+             'location_id' => $validatedData['location']['id'],
+            ]);
+        $appointment = DB::transaction(function () use ($appointmentData) {
+            $guest = User::firstOrCreate([
+                'name' => $appointmentData['guest']['name'],
+                'email' => $appointmentData['guest']['name'] . '@' . $_SERVER['HTTP_HOST'],
+                'password' => bcrypt('password'),
+                'roles' => [new Role(['name' => 'Guest'])],
+            ]);
+            $appointment = $guest->appointments()->create($appointmentData);
+
+            return $appointment;
+        });
         return $this->successResponse($appointment, 'Appointment created successfully', 201);
     }
 
