@@ -29,4 +29,11 @@ docker run --name repaircafe \
   --volume ${PWD}/API:/app \
   bitnami/laravel:latest
 
-  #execute in laravel-Container: php artisan install:api
+  #execute in laravel-Container: \
+  php artisan install:api \
+  composer require maatwebsite/excel \
+  php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider" --tag=config \
+  php artisan make:import RepairsImport --model=Repairs
+  php artisan import:csv database/repairs-en.xlsx repairs-en
+  php artisan import:csv database/repairs-de.xlsx repairs
+  
