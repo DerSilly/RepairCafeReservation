@@ -1,29 +1,31 @@
-sudo pacman -S docker
-sudo systemctl start docker.service
-sudo systemctl enable docker.service
-sudo usermod -aG docker $USER
+sudo pacman -S docker sudo systemctl start docker.service sudo systemctl enable docker.service sudo usermod -aG docker $USER
 
 #export SECRET_1=$(bws secret get fc3a93f4-2a16-445b-b0c4-aeaf0102f0ff | jq '.value')
 
-mkdir ${PWD}/repairdb_data
-docker network create repaircafe-network
-docker volume create --name repairdb_data
+mkdir ${PWD}/repairdb_data docker network create repaircafe-network docker volume create --name repairdb_data
 
-docker run --name repairdb \
-  -p 3306:3306 \
-  --env ALLOW_EMPTY_PASSWORD=yes \
-  --env MARIADB_USER=repair_admin \
-  --env MARIADB_DATABASE=repaircafe \
-  --network repaircafe-network \
-  --volume ${PWD}/repairdb_data:/bitnami/mariadb \
-  bitnami/mariadb:latest
+docker run --name repairdb
+-p 3306:3306
+--env ALLOW_EMPTY_PASSWORD=yes
+--env MARIADB_USER=repair_admin
+--env MARIADB_DATABASE=repaircafe
+--network repaircafe-network
+--volume ${PWD}/repairdb_data:/bitnami/mariadb
+bitnami/mariadb:latest
 
 #to start from Scratch delete the content of the API-folder befor running docker run
 
-docker run --name repaircafe \
-  -p 8000:8000 \
-  --network  repaircafe-network \
-  --volume ${PWD}/API:/app \
-  bitnami/laravel:latest
+docker run --name repaircafe
+-p 8000:8000
+--env DB_HOST=repairdb
+--env DB_USERNAME=repair_admin
+--env DB_DATABASE=repaircafe
+--network repaircafe-network
+--volume ${PWD}/API:/app
+bitnami/laravel:latest
 
-  #execute in laravel-Container: php artisan install:api
+#execute in laravel-Container:
+php artisan install:api
+composer require maatwebsite/excel
+php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider" --tag=config
+php artisan make:import RepairsImport --model=Repairs php artisan import:csv database/repairs-en.xlsx repairs-en php artisan import:csv database/repairs-de.xlsx repairs
