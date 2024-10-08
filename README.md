@@ -1,5 +1,5 @@
 # RepairCafe Booking System
-
+** This is work in progress **
 ## Overview
 
 This Angular web application provides a booking system for repair cafes, allowing users to schedule time slots for item repairs either in advance or upon arrival. The system incorporates AI-assisted error description to improve the quality of repair information collected.
@@ -16,6 +16,7 @@ This Angular web application provides a booking system for repair cafes, allowin
 - **Visitor Notification**: If Email provided, informs visitor if no repair cafe agent is available for the booked timeslot
 - **DSGVO-Compliance**: Automatically deletes UserData 7 days after time slot.
 - **Followup TimeSlot**:: Postpone completion to next meeting.
+- **
 -  
 ## Technology Stack
 
@@ -26,7 +27,7 @@ This Angular web application provides a booking system for repair cafes, allowin
 
 ## Usage
 
-[Provide brief instructions on how to use the application, including any necessary setup steps for repair cafes]
+Please get your own copy of RepairMonitor data from https://dashboard.repairmonitor.org/data/sheets/repairs-de.xlsx and importit to your Database
 
 ## Contributing
 
