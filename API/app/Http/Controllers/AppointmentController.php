@@ -26,7 +26,7 @@ use Psy\SystemEnv;
 class AppointmentController extends Controller implements HasMiddleware
 {
     use ApiResponses;
-
+    
     public static function middleware()
     {
         return [
@@ -47,7 +47,7 @@ class AppointmentController extends Controller implements HasMiddleware
         }
 
 
-        return $this->successResponse($appointments);
+        return $appointments;
     }
 
     // Retrieve and return a single appointment by ID
@@ -63,7 +63,7 @@ class AppointmentController extends Controller implements HasMiddleware
             return $this->errorResponse('Appointment not found', 404);
         }
 
-        return $this->successResponse($appointment);
+        return $appointment;
     }
 
     // Create a new appointment

@@ -80,7 +80,7 @@ $client = new Client(['handler' => $stack]);
 
     public function generateText($prompt, $model = null)
     {
-        /*$response = $this->client->post($model ?? config('services.huggingface.model'),
+        $response = $this->client->post($model ?? config('services.huggingface.model'),
         [
             'json' => [
                     'inputs' => $prompt,
@@ -95,28 +95,6 @@ $client = new Client(['handler' => $stack]);
         ]
     );
 
-
-        [
-            'json' => [
-            'inputs' => $prompt,
-            'parameters' => [
-                'max_new_tokens' => 200,
-                'temperature' => 0.7,
-                'top_p' => 0.95,
-                'do_sample' => true,
-                'repetition_penalty' => 1.1 + (new Randomizer())->getFloat(0, 0.8)
-             ]
-            ]
-        ],);
-
         return str_replace($prompt, "", json_decode($response->getBody(), true)[0]['generated_text']);
-        */
-        $faker = \Faker\Factory::create();
-        $words = [];
-        for ($i = 0; $i < 15; $i++) {
-            array_push($words, $faker->userName);
-        }
-        return $words;
-
     }
 }

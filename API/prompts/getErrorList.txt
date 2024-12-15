@@ -1,0 +1,9 @@
+I want you to act as a radio technician.
+Make a list of 20 possible error scenarios describing a malfunctioning {device} including the examples
+Sort the list by the likeliness the error occurs
+Translate the list to {language}
+The recipient of the list is a person with no technical background. Therefore don't use any complicated vocabulary
+Examples are :
+1: doesn't light up despite power cord is plugged in at both ends
+2: keeps on humming when turned on
+3: doesn't make any sound when turned on

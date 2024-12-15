@@ -7,12 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Repairs extends Model
 {
     use HasFactory;
-    protected $table = 'repairs';
-
-    public function setTable($table)
-    {
-        $this->table = $table;
-    }
 
     protected $fillable = [
         'id',

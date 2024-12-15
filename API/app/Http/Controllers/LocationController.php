@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Location;
 use App\Http\Resources\LocationResource;
-use App\Traits\ApiResponses;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Support\Facades\Gate;
+
 
 class LocationController extends Controller implements HasMiddleware
 {
-    use ApiResponses;
 
     public static function middleware()
     {

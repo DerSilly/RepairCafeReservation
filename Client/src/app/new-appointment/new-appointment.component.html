@@ -4,10 +4,11 @@
   <form #appointmentForm="ngForm" (ngSubmit)="submit()" class="my-auto" autocomplete="off">
     @if (this.step == 0) {
       <h2>Guest</h2>
-    <select id="nickname" name="nickname" [(ngModel)]="appointment.guest.name" class="form-select me-2 mt-3" aria-label="Nickname">
-      <option value="" disabled selected>Select a nickname</option>
-      <option *ngFor="let nick of (nicknames)" [value]="nick">{{ nick }}</option>
-    </select>
+    <label for="nickname">Name</label>
+    <input id="nickname" name="nickname" list="nicknames" [(ngModel)]="appointment.guest.name" class="form-select me-2 mt-3" aria-label="Nickname" placeholder="choose a funny, memorable nickname">
+    <datalist id="nicknames">
+      <option *ngFor="let nick of (nicknames)" [value]="nick">
+    </datalist>
     }
     @if (this.step == 1) {
       <h2>Time</h2>
@@ -18,17 +19,32 @@
     }
     @if (this.step == 2) {
       <h2>Device</h2>
-    <input type="text" id="kindProduct" name="kindProduct" [(ngModel)]="appointment.device.kindProduct" class="form-control me-2 mt-3" placeholder="Device Type">
+      <input type="text" id="kindProduct" name="kindProduct" [(ngModel)]="appointment.device.kindProduct" class="form-select me-2 mt-3" placeholder="Device" list="devices" (change)="changedProductKind()">
+      <datalist id="devices">
+        <option *ngFor="let device of (this.devices)" [value]="device">
+      </datalist>
 
-    <input type="text" id="devicecategory" name="devicecategory" [(ngModel)]="appointment.device.category" class="form-control me-2 mt-3" placeholder="Device Category">
+      <input id="devicecategory" name="devicecategory" [(ngModel)]="appointment.device.category" class="form-select me-2 mt-3" placeholder="Device Category" list="categories">
+      <datalist id="categories">
+        <option *ngFor="let category of (this.categories)" [value]="category">
+      </datalist>
 
-    <input type="text" id="fault" name="tault" [(ngModel)]="appointment.device.fault" class="form-control me-2 mt-3" placeholder="Fault">
+      <input type="text" id="brand" name="brand" [(ngModel)]="appointment.device.brand" class="form-select me-2 mt-3" placeholder="Brand" list="brands" (change)="changedBrand()">
+      <datalist id="brands">
+        <option *ngFor="let brand of (this.brands)" [value]="brand">
+      </datalist>
 
-    <input type="text" id="brand" name="brand" [(ngModel)]="appointment.device.brand" class="form-control me-2 mt-3" placeholder="Brand">
+      <input type="text" id="model" name="model" [(ngModel)]="appointment.device.model" class="form-select me-2 mt-3" placeholder="Model" list="models" (change)="changedModel()">
+      <datalist id="models">
+        <option *ngFor="let model of (this.models)" [value]="model">
+      </datalist>
 
-    <input type="number" id="productBuildYear" name="productBuildYear" [(ngModel)]="appointment.device.productBuildYear" class="form-control me-2 mt-3" placeholder="Build Year">
+      <input type="number" id="productBuildYear" name="productBuildYear" [(ngModel)]="appointment.device.productBuildYear" class="form-control me-2 mt-3" placeholder="Build Year" min="1900" [max]="currentYear">
 
-    <input type="text" id="model" name="model" [(ngModel)]="appointment.device.model" class="form-control me-2 mt-3" placeholder="model">
+      <input type="text" id="fault" name="fault" [(ngModel)]="appointment.device.fault" class="form-select me-2 mt-3" placeholder="Fault" list="faults">
+      <datalist id="faults">
+        <option *ngFor="let fault of (this.faults)" [value]="fault">
+      </datalist>
     }
     @if (this.step > 0) {
     <button class="btn btn-success mt-3 me-3" type="button" (click)="back()">Back</button>
